@@ -1,14 +1,32 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         String httpMethod = args[0];
         String path = args[1];
-        if ("GET".equals(httpMethod) && "/products".equals(path)) {
-            List<String> products = List.of("Product 1", "Product 2", "Product 3");
-            System.out.println(products);
+
+        if (path.startsWith("/products")) {
+            List<String> products = new ArrayList<>();
+            products.add("product1");
+            products.add("product2");
+            products.add("product3");
+
+            if ("GET".equals(httpMethod)) {
+                System.out.println(products);
+
+            } else if ("DELETE".equals(httpMethod)) {
+                String productToDelete = path.substring("/products/".length());
+                products.remove(productToDelete);
+                System.out.println(products);
+
+            } else if ("POST".equals(httpMethod)) {
+                String productToAdd = path.substring("/products/".length());
+                products.add(productToAdd);
+                System.out.println(products);
+            }
         }
     }
 }
