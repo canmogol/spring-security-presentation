@@ -33,3 +33,7 @@ Login: `POST /login/{username}` > `{TOKEN}`
 jbang Main.java POST /login/john
 "john.admin.rest-of-the-token"
 ```
+```shell
+jbang Main.java POST /login/mike
+"mike.user.rest-of-the-token"
+```

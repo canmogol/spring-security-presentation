@@ -10,14 +10,16 @@ public class Main {
 
         if (path.startsWith("/login")) {
             String username = path.substring("/login/".length());
-            if("john".equals(username)){
+            if ("john".equals(username)) {
                 System.out.println("john.admin.rest-of-the-token");
-            }else{
+            } else if ("mike".equals(username)) {
+                System.out.println("mike.user.rest-of-the-token");
+            } else {
                 System.out.println("invalid username");
             }
 
         } else if (path.startsWith("/products")) {
-            if(args.length != 3){
+            if (args.length != 3) {
                 System.out.println("Usage: jbang Main.java <httpMethod> <path> <token>");
                 System.exit(1);
             }
@@ -60,7 +62,11 @@ public class Main {
 
 class AuthenticationFilter {
     public void authenticate(String token) {
-        if(!token.equals("john.admin.rest-of-the-token")){
+        if (token.equals("john.admin.rest-of-the-token")) {
+            System.out.println("authenticated, valid token");
+        } else if (token.equals("mike.user.rest-of-the-token")) {
+            System.out.println("authenticated, valid token");
+        } else {
             System.out.println("invalid token");
             System.exit(1);
         }
@@ -69,8 +75,10 @@ class AuthenticationFilter {
 
 class AuthorizationFilter {
     public void authorize(String role) {
-        if(!"admin".equals(role)){
-            System.out.println("not authorized");
+        if ("admin".equals(role)) {
+            System.out.println("authorized, admin user");
+        } else {
+            System.out.println("unauthorized, not an 'admin'");
             System.exit(1);
         }
     }
