@@ -1,6 +1,5 @@
 package com.example.demo.product;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ public class ProductController {
         products.add(product);
     }
 
-    @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/products")
     public void deleteProduct(@RequestBody String product) {
         products.remove(product);
