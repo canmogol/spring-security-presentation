@@ -22,12 +22,12 @@ public class Main {
                 System.exit(1);
             }
 
+
             // Authenticate the user
             String token = args[2];
-            if(!token.equals("john.admin.rest-of-the-token")){
-                System.out.println("invalid token");
-                System.exit(1);
-            }
+            AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+            authenticationFilter.authenticate(token);
+
 
             ProductController productController = new ProductController();
             if ("GET".equals(httpMethod)) {
@@ -48,6 +48,14 @@ public class Main {
     }
 }
 
+class AuthenticationFilter {
+    public void authenticate(String token) {
+        if(!token.equals("john.admin.rest-of-the-token")){
+            System.out.println("invalid token");
+            System.exit(1);
+        }
+    }
+}
 
 class ProductController {
     List<String> products = new ArrayList<>();
