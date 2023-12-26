@@ -8,33 +8,47 @@ public class Main {
         String httpMethod = args[0];
         String path = args[1];
 
-        if (path.startsWith("/login")) {
-            String username = path.substring("/login/".length());
-            if("john".equals(username)){
-                System.out.println("john.admin.rest-of-the-token");
-            }else{
-                System.out.println("invalid username");
-            }
-
-        } else if (path.startsWith("/products")) {
-            List<String> products = new ArrayList<>();
-            products.add("product1");
-            products.add("product2");
-            products.add("product3");
-
+        if (path.startsWith("/products")) {
+            ProductController productController = new ProductController();
             if ("GET".equals(httpMethod)) {
+                List<String> products = productController.getAll();
                 System.out.println(products);
 
             } else if ("DELETE".equals(httpMethod)) {
                 String productToDelete = path.substring("/products/".length());
-                products.remove(productToDelete);
+                List<String> products = productController.remove(productToDelete);
                 System.out.println(products);
 
             } else if ("POST".equals(httpMethod)) {
                 String productToAdd = path.substring("/products/".length());
-                products.add(productToAdd);
+                List<String> products = productController.add(productToAdd);
                 System.out.println(products);
             }
         }
+    }
+}
+
+
+class ProductController {
+    List<String> products = new ArrayList<>();
+
+    public ProductController() {
+        products.add("product1");
+        products.add("product2");
+        products.add("product3");
+    }
+
+    public List<String> getAll() {
+        return products;
+    }
+
+    public List<String> remove(String productToDelete) {
+        products.remove(productToDelete);
+        return products;
+    }
+
+    public List<String> add(String productToAdd) {
+        products.add(productToAdd);
+        return products;
     }
 }
