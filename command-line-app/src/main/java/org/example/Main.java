@@ -35,6 +35,16 @@ public class Main {
                 System.out.println(products);
 
             } else if ("DELETE".equals(httpMethod)) {
+
+                // Authorization check
+                // admin users can delete products
+                // [_, admin, _]
+                String[] tokenParts = token.split("\\.");
+                String role = tokenParts[1];
+                // Authorization Filter
+                AuthorizationFilter authorizationFilter = new AuthorizationFilter();
+                authorizationFilter.authorize(role);
+
                 String productToDelete = path.substring("/products/".length());
                 List<String> products = productController.remove(productToDelete);
                 System.out.println(products);
@@ -52,6 +62,15 @@ class AuthenticationFilter {
     public void authenticate(String token) {
         if(!token.equals("john.admin.rest-of-the-token")){
             System.out.println("invalid token");
+            System.exit(1);
+        }
+    }
+}
+
+class AuthorizationFilter {
+    public void authorize(String role) {
+        if(!"admin".equals(role)){
+            System.out.println("not authorized");
             System.exit(1);
         }
     }
