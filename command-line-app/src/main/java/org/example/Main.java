@@ -8,7 +8,27 @@ public class Main {
         String httpMethod = args[0];
         String path = args[1];
 
-        if (path.startsWith("/products")) {
+        if (path.startsWith("/login")) {
+            String username = path.substring("/login/".length());
+            if("john".equals(username)){
+                System.out.println("john.admin.rest-of-the-token");
+            }else{
+                System.out.println("invalid username");
+            }
+
+        } else if (path.startsWith("/products")) {
+            if(args.length != 3){
+                System.out.println("Usage: jbang Main.java <httpMethod> <path> <token>");
+                System.exit(1);
+            }
+
+            // Authenticate the user
+            String token = args[2];
+            if(!token.equals("john.admin.rest-of-the-token")){
+                System.out.println("invalid token");
+                System.exit(1);
+            }
+
             ProductController productController = new ProductController();
             if ("GET".equals(httpMethod)) {
                 List<String> products = productController.getAll();
