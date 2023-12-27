@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.auth.JwtAuthenticationFilter;
-import com.example.demo.auth.JwtAuthenticationManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,11 +17,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    private final JwtAuthenticationManager jwtAuthenticationManager;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfiguration(JwtAuthenticationManager jwtAuthenticationManager, JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationManager = jwtAuthenticationManager;
+    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
@@ -35,7 +32,6 @@ public class SecurityConfiguration {
                                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .authenticationManager(jwtAuthenticationManager)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(LogoutConfigurer::permitAll);
         return http.build();
