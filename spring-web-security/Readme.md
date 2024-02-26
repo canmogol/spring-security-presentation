@@ -54,3 +54,8 @@ Delete Product
 ```bash
 curl --request DELETE 'http://localhost:8080/products' --header 'Content-Type: text/plain'  --header 'Authorization: Bearer ${jwt}' --data 'product4'
 ```
+
+
+## Spring Security Internals
+
+Spring Security checks the authority at `org.springframework.security.access.expression.SecurityExpressionRoot::hasAnyAuthorityName()` method, before executing any method annotated with `@PreAuthorize` annotation.
